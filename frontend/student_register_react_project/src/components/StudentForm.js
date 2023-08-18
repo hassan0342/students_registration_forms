@@ -17,7 +17,9 @@ function StudentForm() {
     const [documents, setDocuments] = useState([{ image: null, file: null }]);
     const [successMessage, setSuccessMessage] = useState('');
     const [mydata, setData] = useState([]);
-
+    const closeModal = () => {
+        setSuccessMessage('');
+    };
 
     const handleSubjectChange = (index, value) => {
         const newSubjects = [...subjects];
@@ -95,75 +97,105 @@ function StudentForm() {
         form className = "student-form"
         onSubmit = { handleSubmit } >
         <
-        h2 > Student Registration Form < /h2>   {
-        successMessage && ( <
-            div className = "success-container" >
-            <
-            p className = "success-message" > { successMessage } <
-            /p>  <
-            Link to = { `/profile/${mydata.id}` }
-            className = "view-profile-button" >
-            View Profile <
-            /Link> < /
-            div >
-        )
-    }
+        div className = "form-header" >
+        <
+        h2 > Student Registration Form < /h2>  < /
+        div >
 
-    <
-    label htmlFor = "name" > Name: < /label> <
-    input type = "text"
-    id = "name"
-    value = { name }
-    onChange = {
-        (e) => setName(e.target.value)
-    }
-    required /
+        <
+        div className = "form-group" >
+        <
+        label htmlFor = "name" > Name: < /label> <
+        input type = "text"
+        id = "name"
+        value = { name }
+        onChange = {
+            (e) => setName(e.target.value)
+        }
+        required /
         >
+        <
+        /div>
 
+        <
+        div className = "form-group" >
         <
         label htmlFor = "email" > Email: < /label> <
-    input type = "email"
-    id = "email"
-    value = { email }
-    onChange = {
-        (e) => setEmail(e.target.value)
-    }
-    required /
+        input type = "email"
+        id = "email"
+        value = { email }
+        onChange = {
+            (e) => setEmail(e.target.value)
+        }
+        required /
         >
+        <
+        /div>
 
         <
+        div className = "form-group" >
+        <
         label htmlFor = "phone" > Phone: < /label> <
-    input type = "tel"
-    id = "phone"
-    value = { phone }
-    onChange = {
-        (e) => setPhone(e.target.value)
-    }
-    required /
+        input type = "tel"
+        id = "phone"
+        value = { phone }
+        onChange = {
+            (e) => setPhone(e.target.value)
+        }
+        required /
         >
+        <
+        /div>
 
         <
         SubjectInput subjects = { subjects }
-    onSubjectChange = { handleSubjectChange }
-    onAddSubject = { handleAddSubject }
-    onRemoveSubject = { handleRemoveSubject }
-    />
+        onSubjectChange = { handleSubjectChange }
+        onAddSubject = { handleAddSubject }
+        onRemoveSubject = { handleRemoveSubject }
+        />
 
-    <
-    DocumentInput documents = { documents }
-    onImageChange = { handleImageChange }
-    onFileChange = { handleFileChange }
-    />
+        <
+        DocumentInput documents = { documents }
+        onImageChange = { handleImageChange }
+        onFileChange = { handleFileChange }
+        />
 
-    <
-    button type = "submit"
-    className = "submit-button" > Submit < /button> 
+        <
+        button type = "submit"
+        className = "submit-button" > Submit < /button>  {
+            successMessage && ( <
+                div className = "modal-overlay" >
+                <
+                div className = "modal" >
+                <
+                div className = "modal-content" >
+                <
+                p className = "success-message" > { successMessage } < /p> <
+                div className = "profile-link" >
+                <
+                p > Your registration is complete! < /p> <
+                p > Click below to view your profile: < /p> <
+                Link to = { `/profile/${mydata.id}` }
+                className = "view-profile-button" >
+                View Profile <
+                /Link> <
+                /div> <
+                /div> <
+                button className = "close-modal-button"
+                onClick = { closeModal } >
+                Close <
+                /button> <
+                /div> <
+                /div>
+            )
+        }
 
-    <
-    /
 
-    form >
-);
+        <
+        /
+        form >
+
+    );
 }
 
 export default StudentForm;

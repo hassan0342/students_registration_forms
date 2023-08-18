@@ -49,17 +49,34 @@ class StudentController extends Controller
             foreach ($request->documents as $documentData) {
                 $document = new Document;
                 $document->student_id = $student->id;
-    
-                // Handle the image and file fields separately if they exist in $documentData
+            
                 if (isset($documentData['image'])) {
-                    $document->image = $documentData['image']->store('documents');
+                    $imageFile = $documentData['image'];
+                    $imageFilename = $imageFile->getClientOriginalName();
+            
+                    $imagePath = public_path('documents/');
+                    $imageFile->move($imagePath, $imageFilename);
+            
+                    $dbImagePath = asset('documents/' . $imageFilename);
+            
+                    $document->image = $dbImagePath;
                 }
+            
                 if (isset($documentData['file'])) {
-                    $document->file = $documentData['file']->store('documents');
+                    $file = $documentData['file'];
+                    $fileFilename = $file->getClientOriginalName();
+            
+                    $filePath = public_path('documents/');
+                    $file->move($filePath, $fileFilename);
+            
+                    $dbFilePath = asset('documents/' . $fileFilename);
+            
+                    $document->file = $dbFilePath;
                 }
-    
+            
                 $document->save();
             }
+            
     
             // return $this->sendResponse(['message' => 'Registration successful', 'student' => $student], 201);
             return $this->sendResponse(200, $student);
